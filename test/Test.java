@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import colorworld.crawler.Crawler;
 import colorworld.crawler.Download;
 import colorworld.image.ColorHelper;
+import colorworld.image.RGBHistogram;
 
 public class Test {
 
@@ -39,10 +40,8 @@ public class Test {
 		//URL u = new URL("http://www.cs.washington.edu/research/imagedatabase/groundtruth/_tars.for.download/arborgreens.tar");
 		//System.out.println(u.getFile());
 		//Crawler.downloadAllTarFiles("http://www.cs.washington.edu/research/imagedatabase/groundtruth/_tars.for.download/");
-		int rgb[] = {1,2,5};
-		double hsv[] = ColorHelper.RGB2HSV(rgb);
-		for (int i = 0;i !=3;i++)
-			System.out.println(hsv[i]);
+		RGBHistogram h = new RGBHistogram();
+		h.loadImage("data/1.jpg");
 	}
 
 }
