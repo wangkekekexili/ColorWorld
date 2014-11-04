@@ -128,11 +128,9 @@ public class ColorHistogramDistance {
 			for (int j = 0;j != bins[1];j++) {
 				for (int k = 0;k != bins[2];k++) {
 					diff[i*bins[1]*bins[2]+j*bins[2]+k] = h1.getValue(i,j,k) - h2.getValue(i,j,k);
-					System.out.print(" "+diff[i*bins[1]*bins[2]+j*bins[2]+k]);
 				}
 			}
 		}
-		System.out.println();
 		// build similarity matrix A
 		double A[][] = new double[totalBins][totalBins];
 		double max = 0;

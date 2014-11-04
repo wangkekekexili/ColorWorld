@@ -10,38 +10,32 @@ import javafx.util.Pair;
 
 import javax.imageio.ImageIO;
 
+import sun.nio.cs.HistoricallyNamedCharset;
+import colorworld.algorithm.Algorithm;
 import colorworld.crawler.Crawler;
 import colorworld.crawler.Download;
 import colorworld.image.ColorHelper;
+import colorworld.image.ColorHistogramDistance;
 import colorworld.image.RGBHistogram;
+import colorworld.utilities.DistancePair;
+import colorworld.utilities.HasDoubleValue;
 
 public class Test {
-
-	public static double euclideanDistance(int a[][][], int b[][][]) {
-		double distance = 0;
-		int hello = 0;
-		int hello1 = 0;
-		for (int i = 0;i != 4;i++) {
-			for (int j = 0;j != 4;j++) {
-				for (int k = 0;k != 4;k++) {
-					hello += a[i][j][k];
-					hello1 += b[i][j][k];
-					distance += Math.pow(a[i][j][k]-b[i][j][k], 2);
-				}
-			}
-		}
-		System.out.println(hello + " " + hello1);
-		return Math.sqrt(distance);
-	}
 	
 	public static void main(String[] args) throws MalformedURLException, IOException {
-
-		//Download.saveFile(new URL("http://www.cs.washington.edu/research/imagedatabase/groundtruth/_tars.for.download/arborgreens.tar"), "downloads/a.tar");
-		//URL u = new URL("http://www.cs.washington.edu/research/imagedatabase/groundtruth/_tars.for.download/arborgreens.tar");
-		//System.out.println(u.getFile());
-		//Crawler.downloadAllTarFiles("http://www.cs.washington.edu/research/imagedatabase/groundtruth/_tars.for.download/");
-		RGBHistogram h = new RGBHistogram();
-		h.loadImage("data/1.jpg");
+		RGBHistogram source = new RGBHistogram();
+		source.loadImage("data/14.jpg");
+		ArrayList<HasDoubleValue> result = new ArrayList<HasDoubleValue>();
+		for (int i = 1;i != 25;i++) {
+			String filePath = "data/"+ i + ".jpg";
+			RGBHistogram target = new RGBHistogram();
+			target.loadImage(filePath);
+			result.add(new DistancePair(i, ColorHistogramDistance.compare(source, target, ColorHistogramDistance.QUADRATIC)));
+		}
+		Algorithm.quicksort(result);
+		for (HasDoubleValue i : result) {
+			System.out.println(((DistancePair)i).getID()+" "+((DistancePair)i).getDistance());
+		}
 	}
 
 }
