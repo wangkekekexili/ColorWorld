@@ -16,8 +16,23 @@ public class RGBHistogram extends ColorHistogram {
 	public RGBHistogram() {
 		bins = new int[]{8,8,8}; // default is 8 bins for each of RGB
 		histogram = new int[8][8][8];
+		colorSpace = ColorHelper.RGB;
+		numberOfPixels = 0;
 	}
 	
+	/**
+	 * n bins for each of rgb
+	 * 
+	 * @param n
+	 */
+	public RGBHistogram(int n) {
+		bins = new int[]{n,n,n};
+		histogram = new int[n][n][n];
+		colorSpace = ColorHelper.RGB;
+		numberOfPixels = 0;
+	}
+	
+
 	
 	@Override
 	public boolean loadImage(String imageFilePath) {
@@ -38,6 +53,7 @@ public class RGBHistogram extends ColorHistogram {
 		}
 		int width = image.getWidth();
 		int height = image.getHeight();
+		numberOfPixels = width*height;
 		int colors[][][] = new int[height][width][3];
 		for (int i = 0;i != height;i++) {
 			for (int j = 0;j != width;j++) {
@@ -66,6 +82,7 @@ public class RGBHistogram extends ColorHistogram {
 		
 		int rows = colors.length;
 		int columns = colors[0].length;
+		numberOfPixels = rows*columns;
 		
 		int r,g,b;
 		
