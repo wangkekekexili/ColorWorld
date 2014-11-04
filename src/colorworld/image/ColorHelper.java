@@ -9,6 +9,9 @@ package colorworld.image;
 
 public class ColorHelper {
 
+	final public static String RGB = "RGB";
+	final public static String HSV = "HSV";
+	
 	/**
 	 * Change rgb color space to hsv color space
 	 * 
