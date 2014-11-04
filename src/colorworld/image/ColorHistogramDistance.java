@@ -105,6 +105,22 @@ public class ColorHistogramDistance {
 	 * @return
 	 */
 	private static double quadraticCompare(ColorHistogram h1, ColorHistogram h2) {
+		if (h1.getColorSpace() == ColorHelper.RGB) {
+			return RGBQuadraticCompare(h1, h2);
+		} else if (h1.getColorSpace() == ColorHelper.HSV) {
+			return HSVQuadraticCompare(h1, h2);
+		}
+		return -1;
+	}
+	
+	/**
+	 * compare histogram h1 and h2 using quadratic distance under RGB color space
+	 * 
+	 * @param h1
+	 * @param h2
+	 * @return
+	 */
+	private static double RGBQuadraticCompare(ColorHistogram h1, ColorHistogram h2) {
 		int bins[] = h1.getBins();
 		int totalBins = bins[0]*bins[1]*bins[2];
 		int diff[] = new int[totalBins];
@@ -149,5 +165,10 @@ public class ColorHistogramDistance {
 		}
 		
 		return Math.sqrt(distance);
+	}
+
+	private static double HSVQuadraticCompare(ColorHistogram h1, ColorHistogram h2) {
+		// TODO
+		return 0;
 	}
 }
