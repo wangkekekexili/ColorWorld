@@ -8,7 +8,7 @@ package colorworld.utilities;
  *
  */
 
-public class DistancePair implements Comparable<Double>{
+public class DistancePair implements HasDoubleValue{
 
 	private int id;
 	private double distance;
@@ -27,8 +27,8 @@ public class DistancePair implements Comparable<Double>{
 	}
 
 	@Override
-	public int compareTo(Double o) {
-		return (int)(distance-o.doubleValue());
+	public double getValue() {
+		return distance;
 	}
 	
 }
