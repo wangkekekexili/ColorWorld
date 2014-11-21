@@ -88,12 +88,12 @@ public class WashingtonUniversity {
 					}
 					//System.out.println(d.getPath()+" "+ numberFormat);
 					do {
-						numberOfImages++;
+						
 						// ignore meaningless rows
 						if (line.replaceAll(" ","").length()<=2) {
 							continue;
 						}
-						
+						numberOfImages++;
 						if (numberFormat == true) {
 							// get the number and get the image file according to the number
 							int getNumber = 0;
