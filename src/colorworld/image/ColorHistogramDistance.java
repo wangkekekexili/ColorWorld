@@ -44,6 +44,9 @@ public class ColorHistogramDistance {
 		case "intersection":
 			return intersectionCompare(h1, h2);
 		case "quadratic":
+			if (h1.getColorSpace() == ColorHelper.HSV) {
+				System.out.println("HSV color space doesn't support this algorithm");
+			}
 			return quadraticCompare(h1, h2);
 		default:
 			System.out.println("The comparing method is not supported");
@@ -110,7 +113,8 @@ public class ColorHistogramDistance {
 		} else if (h1.getColorSpace() == ColorHelper.HSV) {
 			return HSVQuadraticCompare(h1, h2);
 		}
-		return -1;
+		assert(false);
+		return 0;
 	}
 	
 	/**
