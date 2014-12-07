@@ -34,7 +34,7 @@ public class ColorHelper {
 		if (delta == 0) {
 			hsv[0] = 0;
 		} else if (max == temp[0]) {
-			hsv[0] = (60*(temp[1]-temp[2])/delta);
+			hsv[0] = (60*(temp[1]-temp[2])/delta)+360;
 			while (hsv[0] >= 360) {
 				hsv[0] -= 360;
 			}
