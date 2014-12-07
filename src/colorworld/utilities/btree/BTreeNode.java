@@ -27,11 +27,6 @@ public class BTreeNode {
 	private BTreeNode father;
 	private BTreeNode sibling;
 	
-	public BTreeNode(int id, BTreeNodeType type, int fanout, boolean isRoot) {
-		this(id, type, fanout);
-		this.isRoot = isRoot;
-	}
-	
 	public BTreeNode(int id, BTreeNodeType type, int fanout) {
 		this.nodeId = id;
 		this.father = null;
@@ -54,20 +49,29 @@ public class BTreeNode {
 		}
 	}
 	
+	public BTreeNode(int id, BTreeNodeType type, int fanout, boolean isRoot) {
+		this(id, type, fanout);
+		this.isRoot = isRoot;
+	}
+	
+	public BTreeNode getChild(int i) {
+		return this.children[i];
+	}
+	
+	public String getDescription(int i) {
+		return this.descriptions[i];
+	}
+	
+	public BTreeNode getFather() {
+		return this.father;
+	}
+	
 	public int getId() {
 		return this.nodeId;
 	}
 	
-	public BTreeNodeType getType() {
-		return this.type;
-	}
-	
-	public boolean isRoot() {
-		return this.isRoot;
-	}
-	
-	public int getNumberOfKeys() {
-		return this.numberOfKeys;
+	public int getKey(int i) {
+		return this.keys[i];
 	}
 	
 	public int getNumberOfChildren() {
@@ -78,17 +82,57 @@ public class BTreeNode {
 		return this.numberOfDescriptions;
 	}
 	
+	
+	public int getNumberOfKeys() {
+		return this.numberOfKeys;
+	}
+	
+	public BTreeNode getSibling() {
+		return this.sibling;
+	}
+	
+	public BTreeNodeType getType() {
+		return this.type;
+	}
+
+	public void increaseNumberOfChildren() {
+		this.numberOfChildren++;
+	}
+
+	public void increaseNumberOfChildren(int i) {
+		this.numberOfChildren += i;
+	}
+
+	public void increaseNumberofDescriptions(int i) {
+		this.numberOfDescriptions += i;
+	}
+
+	public void increaseNumberOfDescriptions() {
+		this.numberOfDescriptions += 1;
+	}
+
+	public void increaseNumberOfKeys() {
+		this.numberOfKeys += 1;
+	}
+
+	public void increaseNumberOfKeys(int i) {
+		this.numberOfKeys += i;
+	}
+
+	public boolean isRoot() {
+		return this.isRoot;
+	}
+
 	public boolean isValid() {
 		return this.isValid;
 	}
 	
-	
-	public void setIsValid(boolean value) {
-		this.isValid = value;
+	public void setChild(int i, BTreeNode child) {
+		this.children[i] = child;
 	}
-	
-	public void setIsRoot(boolean value) {
-		this.isRoot = value;
+
+	public void setDescription(int j, String description) {
+		this.descriptions[j] = description;
 	}
 	
 	public void setFather(BTreeNode father2) {
@@ -96,76 +140,32 @@ public class BTreeNode {
 		
 	}
 
-	public int getKey(int i) {
-		return this.keys[i];
+	public void setIsRoot(boolean value) {
+		this.isRoot = value;
 	}
 
-	public void setNumberOfKeys(int i) {
-		this.numberOfKeys = i;
-	}
-
-	public void setNumberOfDescriptions(int i) {
-		this.numberOfDescriptions = i;
+	public void setIsValid(boolean value) {
+		this.isValid = value;
 	}
 
 	public void setKey(int j, int key) {
 		this.keys[j] = key;
 	}
 
-	public String getDescription(int i) {
-		return this.descriptions[i];
+	public void setNumberOfChildren(int i) {
+		this.numberOfChildren = i;		
 	}
 
-	public void setDescription(int j, String description) {
-		this.descriptions[j] = description;
-	}
-
-	public BTreeNode getChild(int i) {
-		return this.children[i];
-	}
-
-	public void increaseNumberOfKeys() {
-		this.numberOfKeys += 1;
+	public void setNumberOfDescriptions(int i) {
+		this.numberOfDescriptions = i;
 	}
 	
-	public void increaseNumberOfKeys(int i) {
-		this.numberOfKeys += i;
-	}
-
-	public void increaseNumberOfDescriptions() {
-		this.numberOfDescriptions += 1;
-	}
-	
-	public void increaseNumberofDescriptions(int i) {
-		this.numberOfDescriptions += i;
+	public void setNumberOfKeys(int i) {
+		this.numberOfKeys = i;
 	}
 
 	public void setSibling(BTreeNode splitNode) {
 		this.sibling = splitNode;
-	}
-
-	public BTreeNode getFather() {
-		return this.father;
-	}
-
-	public BTreeNode getSibling() {
-		return this.sibling;
-	}
-
-	public void setChild(int i, BTreeNode child) {
-		this.children[i] = child;
-	}
-
-	public void increaseNumberOfChildren() {
-		this.numberOfChildren++;
-	}
-	
-	public void increaseNumberOfChildren(int i) {
-		this.numberOfChildren += i;
-	}
-
-	public void setNumberOfChildren(int i) {
-		this.numberOfChildren = i;		
 	}
 	
 	
