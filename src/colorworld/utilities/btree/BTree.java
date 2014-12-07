@@ -15,9 +15,17 @@ import colorworld.utilities.SerializeToFile;
 
 public class BTree implements SerializeToFile{
 	
+	private static final int DEFAULT_FANOUT = 20;
+	
 	private int fanout;
 	private int numberOfNodes; // for serialization and deserialization
 	private BTreeNode root;
+	
+	public BTree() {
+		this.fanout = DEFAULT_FANOUT;
+		this.numberOfNodes = 0;
+		this.root = null;
+	}
 	
 	public BTree(int fanout) {
 		this.fanout = fanout;
