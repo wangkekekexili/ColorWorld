@@ -31,8 +31,6 @@ public class ColorHistogramLibrary {
 
 	/**
 	 * Initialize the histogram library using dataset from WU
-	 * The data has already been handled
-	 * What we need is to parse the 'description' file
 	 * 
 	 * @return
 	 * @throws FileNotFoundException 
