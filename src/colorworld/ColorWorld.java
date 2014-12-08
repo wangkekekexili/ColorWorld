@@ -152,6 +152,12 @@ public class ColorWorld {
 			}
 			keyword = command.substring(beginIndex, endIndex);
 			Map<Integer, Integer> result = this.ktree.search(keyword);
+			
+			if (result == null || result.size() == 0) {
+				System.out.println("No images found");
+				return 1;
+			}
+			
 			TreeMap<Integer, Integer> sortedResult = KeywordTree.sortResult(result);
 			
 			try {
