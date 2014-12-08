@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import colorworld.utilities.SerializeToFile;
 
 /**
  * B-tree data structure
@@ -13,7 +12,7 @@ import colorworld.utilities.SerializeToFile;
  *
  */
 
-public class BTree implements SerializeToFile{
+public class BTree{
 	
 	private static final int DEFAULT_FANOUT = 20;
 	
