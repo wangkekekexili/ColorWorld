@@ -172,7 +172,7 @@ public class ColorCoherentVector {
 		int bins = p.getBins();
 		int value = 0;
 		for (int i = 0;i != bins*bins*bins;i++) {
-			value = Math.abs(p.getCoherencePair()[i][0]-q.getCoherencePair()[i][0])+Math.abs(p.getCoherencePair()[i][1]-q.getCoherencePair()[i][1]);
+			value += Math.abs(p.getCoherencePair()[i][0]-q.getCoherencePair()[i][0])+Math.abs(p.getCoherencePair()[i][1]-q.getCoherencePair()[i][1]);
 		}
 		
 		return value;
