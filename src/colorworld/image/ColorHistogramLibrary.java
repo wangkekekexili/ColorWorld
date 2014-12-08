@@ -66,6 +66,36 @@ public class ColorHistogramLibrary {
 		
 		return true;
 	}
+
+
+	public ArrayList<DistancePair> compare(RGBHistogram rgbHistogram, String method) {
+		ArrayList<HasDoubleValue> tempResult = new ArrayList<HasDoubleValue>();
+		for (int i = 0;i != imageIds.size();i++) {
+			tempResult.add(new DistancePair(this.imageIds.get(i), ColorHistogramDistance.compare(rgbHistogram, this.rgbHistograms.get(i), method)));
+		}
+		Algorithm.quicksort(tempResult);
+		ArrayList<DistancePair> result = new ArrayList<DistancePair>();
+		for (HasDoubleValue item : tempResult) {
+			result.add((DistancePair)(item));
+		}
+		return result;
+	}
+	
+	public ArrayList<DistancePair> compare(HSVHistogram hsvHistogram, String method) {
+		if (method==ColorHistogramDistance.QUADRATIC) {
+			return null;
+		}
+		ArrayList<HasDoubleValue> tempResult = new ArrayList<HasDoubleValue>();
+		for (int i = 0;i != imageIds.size();i++) {
+			tempResult.add(new DistancePair(this.imageIds.get(i), ColorHistogramDistance.compare(hsvHistogram, this.hsvHistograms.get(i), method)));
+		}
+		Algorithm.quicksort(tempResult);
+		ArrayList<DistancePair> result = new ArrayList<DistancePair>();
+		for (HasDoubleValue item : tempResult) {
+			result.add((DistancePair)(item));
+		}
+		return result;
+	}
 	
 }
 
