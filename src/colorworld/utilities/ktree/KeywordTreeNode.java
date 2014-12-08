@@ -69,7 +69,7 @@ public class KeywordTreeNode {
 		if (this.imageId.containsKey(new Integer(imageId2)) == false) {
 			return false;
 		} else {
-			this.imageId.replace(new Integer(imageId2), new Integer(imageId.get(new Integer(imageId2).intValue()+increase)));
+			this.imageId.replace(new Integer(imageId2), new Integer(imageId.get(new Integer(imageId2).intValue())+increase));
 			return true;
 		}
 	}
@@ -78,7 +78,7 @@ public class KeywordTreeNode {
 		if (this.imageId.containsKey(new Integer(imageId2)) == false) {
 			return false;
 		} else {
-			this.imageId.replace(new Integer(imageId2), new Integer(imageId.get(new Integer(imageId2).intValue()-decrease)));
+			this.imageId.replace(new Integer(imageId2), new Integer(imageId.get(new Integer(imageId2).intValue())-decrease));
 			return true;
 		}
 	}

@@ -3,9 +3,11 @@ package colorworld.utilities.ktree;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * A KeyWordTree data structure to speed up search for keywords
@@ -133,7 +135,20 @@ public class KeywordTree {
 			System.out.println("Description file not found");
 			return false;
 		}
-		Scanner sc = new Scanner(descriptionFile);
+		File configurationFile = new File("data/configuration");
+		Scanner sc = new Scanner(configurationFile);
+		
+		int maxId = 0;
+		if (sc.next().equals("next_image_id:")) {
+			maxId = sc.nextInt();
+		} else {
+			sc.close();
+			return false;
+		}
+		
+		sc.close();
+		
+		sc = new Scanner(descriptionFile);
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 			int iterator = 0;
@@ -141,6 +156,9 @@ public class KeywordTree {
 				iterator++;
 			}
 			int key = Integer.parseInt(line.substring(0,iterator));
+			if (key>=maxId){
+				break;
+			}
 			String description = line.substring(iterator+1);
 			// parse keywords from 'description' to 'arraylist'
 			ArrayList<String> keywords = new ArrayList<String>();
@@ -172,4 +190,25 @@ public class KeywordTree {
 		return true;
 	}
 	
+	
+	public static TreeMap<Integer, Integer> sortResult(Map<Integer, Integer> input) {
+		class ValueComparator implements Comparator<Integer> {
+			Map<Integer, Integer> base;
+			public ValueComparator(Map<Integer, Integer> base) {
+				this.base = base;
+			}
+			public int compare(Integer a,Integer b) {
+				if (this.base.get(a).intValue() >= this.base.get(b).intValue()) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		}
+		ValueComparator bc = new ValueComparator(input);
+		TreeMap<Integer, Integer> sortedMap = new TreeMap<Integer, Integer>(bc);
+		sortedMap.putAll(input);
+		return sortedMap;
+	}
+
 }
