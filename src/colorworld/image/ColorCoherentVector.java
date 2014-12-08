@@ -35,6 +35,20 @@ public class ColorCoherentVector {
 		bins = n;
 	}
 	
+	int getBins() {
+		return this.bins;
+	}
+	
+	int[][] getCoherencePair() {
+		return this.coherencePair;
+	}
+	
+	/**
+	 * load an image and build its color coherence pair
+	 * 
+	 * @param imageFilePath
+	 * @return
+	 */
 	public boolean loadImage(String imageFilePath) {
 		
 		// check if the image exists
@@ -148,5 +162,20 @@ public class ColorCoherentVector {
 		return true;
 	}
 	
+	public static int compareCCV(ColorCoherentVector p, ColorCoherentVector q) {
+		if (p==null || q==null) {
+			return -1;
+		}
+		if (p.getBins()!=q.getBins()) {
+			return -1;
+		}
+		int bins = p.getBins();
+		int value = 0;
+		for (int i = 0;i != bins*bins*bins;i++) {
+			value = Math.abs(p.getCoherencePair()[i][0]-q.getCoherencePair()[i][0])+Math.abs(p.getCoherencePair()[i][1]-q.getCoherencePair()[i][1]);
+		}
+		
+		return value;
+	}
 	
 }
