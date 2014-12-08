@@ -1,9 +1,12 @@
 package colorworld;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +16,7 @@ import java.util.TreeMap;
 
 import colorworld.image.ColorCoherentVector;
 import colorworld.image.ColorCoherentVectorLibrary;
+import colorworld.image.ColorHelper;
 import colorworld.image.ColorHistogramDistance;
 import colorworld.image.ColorHistogramLibrary;
 import colorworld.image.HSVHistogram;
@@ -95,7 +99,8 @@ public class ColorWorld {
 		System.out.println();
 		System.out.println();
 		System.out.println("search by (color, keyword, image) STR");
-		//System.out.println("\tsearch by color RED");
+		System.out.println("\tsearch by color RED");
+		System.out.println("\t\tsupport: red orange yellow green aqua blue purple white black grey");
 		System.out.println("\tsearch by keyword Shanghai");
 		System.out.println("\tsearch by image input/hello.jpg");
 		System.out.println();
@@ -208,11 +213,204 @@ public class ColorWorld {
 			this.generateHTMLResult(searchImageFilePath, command,
 					resultHSVIntersection);
 			
+		} else if (method.equals("color")) {
+			String primaryColor = null;
+			String secondaryColor = null;
+			String tertiaryColor = null;
+			
+			// get primary color
+			beginIndex = endIndex;
+			while(beginIndex < command.length() && command.charAt(beginIndex)==' ') { beginIndex++; }
+			endIndex = beginIndex;
+			while (endIndex < command.length() && command.charAt(endIndex)!=' ') { endIndex++; }
+			primaryColor = command.substring(beginIndex, endIndex);
+			if (primaryColor.equals("")) { 
+				System.out.println("Please provide at least on color");
+				System.out.println("Enter 'help' for more information");
+				return 1; 
+			} else if (!ColorHelper.COLORS_SUPPORTED.contains(primaryColor.toLowerCase())) {
+				System.out.println("The color is not supported");
+				System.out.println("Enter 'help' for more information");
+				return 1;
+			}
+			
+			// get secondary color
+			beginIndex = endIndex;
+			while(beginIndex < command.length() && command.charAt(beginIndex)==' ') { beginIndex++; }
+			endIndex = beginIndex;
+			while (endIndex < command.length() && command.charAt(endIndex)!=' ') { endIndex++; }
+			secondaryColor = command.substring(beginIndex, endIndex);
+			if (!ColorHelper.COLORS_SUPPORTED.contains(secondaryColor.toLowerCase())) {
+				System.out.println("The color is not supported");
+				System.out.println("Enter 'help' for more information");
+				return 1;
+			}
+			
+			// get tertiary color
+			if (secondaryColor.equals("") == false) {
+				beginIndex = endIndex;
+				while(beginIndex < command.length() && command.charAt(beginIndex)==' ') { beginIndex++; }
+				endIndex = beginIndex;
+				while (endIndex < command.length() && command.charAt(endIndex)!=' ') { endIndex++; }
+				tertiaryColor = command.substring(beginIndex, endIndex);
+				if (!ColorHelper.COLORS_SUPPORTED.contains(tertiaryColor.toLowerCase())) {
+					System.out.println("The color is not supported");
+					System.out.println("Enter 'help' for more information");
+					return 1;
+				}
+			} else {
+				tertiaryColor = "";
+			}
+			
+			// get result from file
+			ArrayList<Integer> results = new ArrayList<Integer>();
+			if (secondaryColor.equals("")) {
+				// only primary color provided
+				int minIndex = ColorHelper.colorToNumber(primaryColor)*100;
+				for (int i = minIndex;i != minIndex+100;i++) {
+					// open corresponding file and extract image id to 'results'
+					File indexFile = new File("index/"+i+".txt");
+					if (indexFile.exists()) {
+						BufferedReader br = new BufferedReader(new FileReader(indexFile));
+						String line;
+						while ((line=br.readLine())!=null) {
+							// extract image id
+							int idStart = line.indexOf("data/");
+							idStart += "data/".length();
+							int idEnd = idStart;
+							while (line.charAt(idEnd) != '.') {
+								idEnd++;
+							}
+							results.add(new Integer(line.substring(idStart, idEnd)));
+						}
+						
+						br.close();
+					} else {
+						System.out.println("Missing index files");
+						return 1;
+					}
+				}
+			} else if (tertiaryColor.equals("")) {
+				// primary color and secondary color provided
+				int minIndex = ColorHelper.colorToNumber(primaryColor)*100 + ColorHelper.colorToNumber(secondaryColor)*10;
+				for (int i = minIndex;i != minIndex+10;i++) {
+					File indexFile = new File("index/"+i+".txt");
+					if (indexFile.exists()) {
+						BufferedReader br = new BufferedReader(new FileReader(indexFile));
+						String line;
+						while ((line=br.readLine())!=null) {
+							// extract image id
+							int idStart = line.indexOf("data/");
+							idStart += "data/".length();
+							int idEnd = idStart;
+							while (line.charAt(idEnd) != '.') {
+								idEnd++;
+							}
+							results.add(new Integer(line.substring(idStart, idEnd)));
+						}
+						
+						br.close();
+					} else {
+						System.out.println("Missing index files");
+						return 1;
+					}	
+				}
+			} else {
+				// three colors provided
+				int fileId = ColorHelper.colorToNumber(primaryColor)*100+
+						ColorHelper.colorToNumber(secondaryColor)*10+
+						ColorHelper.colorToNumber(tertiaryColor);
+				File indexFile = new File(""+fileId);
+				if (indexFile.exists()) {
+					BufferedReader br = new BufferedReader(new FileReader(indexFile));
+					String line;
+					while ((line=br.readLine())!=null) {
+						// extract image id
+						int idStart = line.indexOf("data/");
+						idStart += "data/".length();
+						int idEnd = idStart;
+						while (line.charAt(idEnd) != '.') {
+							idEnd++;
+						}
+						results.add(new Integer(line.substring(idStart, idEnd)));
+					}
+					
+					br.close();
+				} else {
+					System.out.println("Missing index files");
+					return 1;
+				}	
+			}
+			
+			if (results.size() == 0) {
+				System.out.println("No image found");
+				return 1;
+			}
+			
+			// generate HTML result
+			this.generateHTMLResult(command, results);
+			
 		}
-		
 		return 0;
 	}
 
+	
+	private void generateHTMLResult(String command, ArrayList<Integer> results) throws IOException {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(System.currentTimeMillis());
+		sb.append(' ');
+		sb.append(command);
+		sb.append(".html");
+		
+		File htmlResult = new File(sb.toString());
+		if (htmlResult.exists() == false) {
+			htmlResult.createNewFile();
+		}
+		BufferedWriter bw = new BufferedWriter(new FileWriter(htmlResult));
+		
+		bw.write("<!DOCTYPE html><html><head><title>");
+		bw.write(command);
+		bw.write("</title></head><body>");
+		bw.write("<h1>");
+		bw.write(command);
+		bw.write("</h1>");
+		
+		
+		int count = 0;
+		for(Integer key : results) {
+			count++;
+
+
+			bw.write("<p>");
+			bw.write("image id: "+key);
+			bw.write("</p>");
+			String description = this.btree.search(key);
+			ArrayList<String> keywords = Description.extractKeywords(description);
+			bw.write("<p>");
+			bw.write("keywords: ");
+			for (String k : keywords) {
+				bw.write(k);
+				bw.write(" ");
+			}
+			bw.write("</p>");
+			
+			//<img src="pic_mountain.jpg" alt="Mountain View" style="width:240px;height:180px>">
+			bw.write("<img src=\"data/");
+			bw.write(""+key+".jpg\" style=\"width:240px;height:180px\">");
+			bw.write("<br><br>");
+			
+			if (count==3*TOP) {
+				break;
+			}
+		}
+		
+		bw.write("</body></html>");
+		
+		bw.close();
+		
+		System.out.println("HTML report generated successfully");		
+	}
 
 	private void generateHTMLResult(String searchImageFilePath, String command,
 			ArrayList<DistancePair> resultRGBEuclidean,
