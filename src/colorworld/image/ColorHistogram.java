@@ -11,8 +11,8 @@ import java.awt.Image;
 
 public abstract class ColorHistogram {
 	
-	protected int histogram[][][];
-	protected int bins[];
+	protected int[][][] histogram;
+	protected int[] bins;
 	protected String colorSpace;
 	protected int numberOfPixels;
 	
