@@ -57,10 +57,10 @@ public class ColorHistogramLibrary {
 			}
 			HSVHistogram hsv = new HSVHistogram();
 			hsv.loadImage(filePath);
-			RGBHistogram rgb = new RGBHistogram();
-			rgb.loadImage(filePath);
+			//RGBHistogram rgb = new RGBHistogram();
+			//rgb.loadImage(filePath);
 			this.imageIds.add(new Integer(i));
-			this.rgbHistograms.add(rgb);
+			//this.rgbHistograms.add(rgb);
 			this.hsvHistograms.add(hsv);
 		}
 		

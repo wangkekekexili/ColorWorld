@@ -77,13 +77,13 @@ public class ColorWorld {
 			System.exit(1);
 		}
 		// ccv library
-		this.ccvl = new ColorCoherentVectorLibrary();
+		/*this.ccvl = new ColorCoherentVectorLibrary();
 		try {
 			ccvl.initializeWithTestDataset();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	private void help() {
@@ -187,30 +187,33 @@ public class ColorWorld {
 				return 1;
 			} 
 			
-			RGBHistogram rgbHistogram = new RGBHistogram();
-			rgbHistogram.loadImage(searchImageFilePath);
+			//RGBHistogram rgbHistogram = new RGBHistogram();
+			//rgbHistogram.loadImage(searchImageFilePath);
 			HSVHistogram hsvHistogram = new HSVHistogram();
 			hsvHistogram.loadImage(searchImageFilePath);
-			ColorCoherentVector ccv = new ColorCoherentVector();
-			ccv.loadImage(searchImageFilePath);
+			//ColorCoherentVector ccv = new ColorCoherentVector();
+			//ccv.loadImage(searchImageFilePath);
 			
-			ArrayList<DistancePair> resultRGBEuclidean = this.chl.compare(rgbHistogram, ColorHistogramDistance.EUCLIDEAN);
-			ArrayList<DistancePair> resultRGBIntersection = this.chl.compare(rgbHistogram, ColorHistogramDistance.INTERSECTION);
-			ArrayList<DistancePair> resultRGBQuadratic = this.chl.compare(rgbHistogram, ColorHistogramDistance.QUADRATIC);
-			ArrayList<DistancePair> resultHSVEuclidean = this.chl.compare(hsvHistogram, ColorHistogramDistance.EUCLIDEAN);
+			//ArrayList<DistancePair> resultRGBEuclidean = this.chl.compare(rgbHistogram, ColorHistogramDistance.EUCLIDEAN);
+			//ArrayList<DistancePair> resultRGBIntersection = this.chl.compare(rgbHistogram, ColorHistogramDistance.INTERSECTION);
+			//ArrayList<DistancePair> resultRGBQuadratic = this.chl.compare(rgbHistogram, ColorHistogramDistance.QUADRATIC);
+			//ArrayList<DistancePair> resultHSVEuclidean = this.chl.compare(hsvHistogram, ColorHistogramDistance.EUCLIDEAN);
 			ArrayList<DistancePair> resultHSVIntersection = this.chl.compare(hsvHistogram, ColorHistogramDistance.INTERSECTION);
-			ArrayList<DistancePair> resultCCV = this.ccvl.compare(ccv);
+			//ArrayList<DistancePair> resultCCV = this.ccvl.compare(ccv);
 			
-			this.generateHTMLResult(searchImageFilePath, command, 
+			/*this.generateHTMLResult(searchImageFilePath, command, 
 					resultRGBEuclidean, resultRGBIntersection, resultRGBQuadratic, 
 					resultHSVEuclidean, resultHSVIntersection, 
-					resultCCV);
+					resultCCV);*/
+			this.generateHTMLResult(searchImageFilePath, command,
+					resultHSVIntersection);
 			
 		}
 		
 		return 0;
 	}
-	
+
+
 	private void generateHTMLResult(String searchImageFilePath, String command,
 			ArrayList<DistancePair> resultRGBEuclidean,
 			ArrayList<DistancePair> resultRGBIntersection,
@@ -372,6 +375,64 @@ public class ColorWorld {
 		bw.write("</h2>");
 		count = 0;
 		for(DistancePair p : resultCCV) {
+			count++;
+			  
+			int id = p.getID();
+			double distance = p.getDistance();
+
+			bw.write("<p>");
+			bw.write("image id: "+id+"\t"+"distance: "+distance);
+			bw.write("</p>");
+			
+			//<img src="pic_mountain.jpg" alt="Mountain View" style="width:240px;height:180px>">
+			bw.write("<img src=\"data/");
+			bw.write(""+id+".jpg\" style=\"width:240px;height:180px\">");
+			bw.write("<br>");
+			
+			if (count==TOP) {
+				break;
+			}
+		}
+		
+		bw.write("</body></html>");
+		
+		bw.close();
+		
+		System.out.println("HTML report generated successfully");				
+	}
+
+
+	
+	private void generateHTMLResult(String searchImageFilePath, String command,
+			ArrayList<DistancePair> resultHSVIntersection) throws IOException {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(System.currentTimeMillis());
+		sb.append(".html");
+		
+		File htmlResult = new File(sb.toString());
+		if (htmlResult.exists() == false) {
+			htmlResult.createNewFile();
+		}
+		BufferedWriter bw = new BufferedWriter(new FileWriter(htmlResult));
+		
+		bw.write("<!DOCTYPE html><html><head><title>");
+		bw.write(command);
+		bw.write("</title></head><body>");
+		bw.write("<h1>");
+		bw.write(command);
+		bw.write("</h1>");
+		bw.write("<img src=\""+searchImageFilePath+"\" stype=\"width:240px;height:180px\">");
+		bw.write("<br>");
+		
+		int count = 0;
+		
+		// HSV Intersection
+		bw.write("<h2>");
+		bw.write("HSV Color Histogram, Intersection Distance");
+		bw.write("</h2>");
+		count = 0;
+		for(DistancePair p : resultHSVIntersection) {
 			count++;
 			  
 			int id = p.getID();
