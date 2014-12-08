@@ -153,12 +153,7 @@ public class ColorHelper {
 				buffer[i][j] = c.getRGB();
 			}
 		}
-		for (int i = 0;i != width;i++) {
-			for (int j = 0;j != height;j++) {
-				System.out.println(image.getRGB(i,j));
-				System.out.println(buffer[i][j]);
-			}
-		}
+	
 	}
 	
 }
