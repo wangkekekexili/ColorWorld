@@ -1,5 +1,12 @@
 package colorworld.image;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 /**
  * Some helper methods for color 
  * 
@@ -56,6 +63,102 @@ public class ColorHelper {
 		
 		return hsv;
 		
+	}
+	
+	/**
+	 * blur an image in RGB color space using its nearest 8 pixels
+	 * 
+	 * @param image
+	 */
+	public static void blur(BufferedImage image) {
+		int width = image.getWidth();
+		int height = image.getHeight();
+		int[][] buffer = new int[width][height]; 
+		for (int i = 0;i != width;i++) {
+			for (int j = 0;j != height;j++) {
+				int rgb = image.getRGB(i, j);
+				int r = (rgb>>16) & 0xFF;
+				int g = (rgb>>8) & 0xFF;
+				int b = (rgb) & 0xFF;
+				//System.out.print(r+" "+g+" "+b+" ");
+				int n = 1;
+				int temp;
+				// i-1 j-1
+				if (i-1>=0 && j-1>=0) {
+					temp = image.getRGB(i-1,j-1);
+					r += (temp>>16) & 0xFF;
+					g += (temp>>8) & 0xFF;
+					b += (temp) & 0xFF;
+					n++;
+
+				}
+				// i-1 j
+				if (i-1>=0) {
+					temp = image.getRGB(i-1, j);
+					r += (temp>>16) & 0xFF;
+					g += (temp>>8) & 0xFF;
+					b += (temp) & 0xFF;
+					n++;
+				}
+				// i-1 j+1
+				if (i-1>=0 && j+1<=height-1) {
+					temp = image.getRGB(i-1,j+1);
+					r += (temp>>16) & 0xFF;
+					g += (temp>>8) & 0xFF;
+					b += (temp) & 0xFF;
+					n++;
+				}
+				// i j-1
+				if (j-1>=0) {
+					temp = image.getRGB(i, j-1);
+					r += (temp>>16) & 0xFF;
+					g += (temp>>8) & 0xFF;
+					b += (temp) & 0xFF;
+					n++;
+				}
+				// i j+1
+				if (j+1<=height-1) {
+					temp = image.getRGB(i, j+1);
+					r += (temp>>16) & 0xFF;
+					g += (temp>>8) & 0xFF;
+					b += (temp) & 0xFF;
+					n++;
+				}
+				// i+1 j-1
+				if (i+1<=width-1 && j-1>=0) {
+					temp = image.getRGB(i+1, j-1);
+					r += (temp>>16) & 0xFF;
+					g += (temp>>8) & 0xFF;
+					b += (temp) & 0xFF;
+					n++;
+				}
+				// i+1 j
+				if (i+1<=width-1) {
+					temp = image.getRGB(i+1,j);
+					r += (temp>>16) & 0xFF;
+					g += (temp>>8) & 0xFF;
+					b += (temp) & 0xFF;
+					n++;
+				}
+				// i+1 j+1
+				if (i+1<=width-1 && j+1<=height-1) {
+					temp = image.getRGB(i+1, j+1);
+					r += (temp>>16) & 0xFF;
+					g += (temp>>8) & 0xFF;
+					b += (temp) & 0xFF;
+					n++;
+				}
+
+				Color c = new Color(r/n,g/n,b/n);
+				buffer[i][j] = c.getRGB();
+			}
+		}
+		for (int i = 0;i != width;i++) {
+			for (int j = 0;j != height;j++) {
+				System.out.println(image.getRGB(i,j));
+				System.out.println(buffer[i][j]);
+			}
+		}
 	}
 	
 }
