@@ -64,5 +64,23 @@ public class KeywordTreeNode {
 	public Map<Integer, Integer> getAll() {
 		return this.imageId;
 	}
+
+	public boolean increaseConfidence(int imageId2, int increase) {
+		if (this.imageId.containsKey(new Integer(imageId2)) == false) {
+			return false;
+		} else {
+			this.imageId.replace(new Integer(imageId2), new Integer(imageId.get(new Integer(imageId2).intValue()+increase)));
+			return true;
+		}
+	}
+
+	public boolean decreaseConfidence(int imageId2, int decrease) {
+		if (this.imageId.containsKey(new Integer(imageId2)) == false) {
+			return false;
+		} else {
+			this.imageId.replace(new Integer(imageId2), new Integer(imageId.get(new Integer(imageId2).intValue()-decrease)));
+			return true;
+		}
+	}
 	
 }

@@ -87,12 +87,36 @@ public class KeywordTree {
 		return node.getAll();
 	}
 	
-	public boolean increaseConfidence(String keywords, int increase) {
-		return true;
+	public boolean increaseConfidence(int imageId, String keywords, int increase) {
+		KeywordTreeNode node = this.root;
+		if (node == null) {
+			return false;
+		}
+		for (char ch : keywords.toCharArray()) {
+			if (node.hasIndex(ch)) {
+				node = node.getNextLevel(ch);
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return node.increaseConfidence(imageId, increase);
 	}
 	
-	public boolean decreaseConfidence(String keywords, int decrease) {
-		return true;
+	public boolean decreaseConfidence(int imageId, String keywords, int decrease) {
+		KeywordTreeNode node = this.root;
+		if (node == null) {
+			return false;
+		}
+		for (char ch : keywords.toCharArray()) {
+			if (node.hasIndex(ch)) {
+				node = node.getNextLevel(ch);
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return node.decreaseConfidence(imageId, decrease);
 	}
 	
 	/**
