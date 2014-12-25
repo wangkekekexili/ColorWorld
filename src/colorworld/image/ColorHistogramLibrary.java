@@ -82,7 +82,7 @@ public class ColorHistogramLibrary {
 	}
 	
 	public ArrayList<DistancePair> compare(HSVHistogram hsvHistogram, String method) {
-		if (method==ColorHistogramDistance.QUADRATIC) {
+		if (method.equals(ColorHistogramDistance.QUADRATIC)) {
 			return null;
 		}
 		ArrayList<HasDoubleValue> tempResult = new ArrayList<HasDoubleValue>();
