@@ -144,7 +144,7 @@ public class ColorCoherentVector {
 								inQueue[first+1][second] = true;
 							}
 							// i+1, j+1
-							if (first+1<=width-1 && second+1<=height-1 && visited[first+1][second+1]==false && visited[first+1][second+1]==false && inQueue[first+1][second+1]==false) {
+							if (first+1<=width-1 && second+1<=height-1 && visited[first+1][second+1]==false && visitedThisTime[first+1][second+1]==false && inQueue[first+1][second+1]==false) {
 								q.add(new Pair<Integer, Integer>(new Integer(first+1), new Integer(second+1)));
 								inQueue[first+1][second+1] = true;
 							}

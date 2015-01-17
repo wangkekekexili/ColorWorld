@@ -12,3 +12,5 @@ hs_err_pid*
 /bin/
 
 test/Test.java
+
+.settings/edu.umd.cs.findbugs.plugin.eclipse.prefs

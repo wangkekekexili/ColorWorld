@@ -19,6 +19,27 @@ public class ColorHelper {
 	final public static String RGB = "RGB";
 	final public static String HSV = "HSV";
 	
+	final public static String COLORS_SUPPORTED = "red orange yellow green aqua blue purple white black grey";
+	
+	public static int colorToNumber(String color) {
+		if (color==null) {
+			return -1;
+		}
+		color = color.toLowerCase();
+		if (color.equals("red")) { return 0; }
+		else if (color.equals("orange")) { return 1; }
+		else if (color.equals("yellow")) { return 2; }
+		else if (color.equals("green")) { return 3; }
+		else if (color.equals("aqua")) { return 4; }
+		else if (color.equals("blue")) { return 5; }
+		else if (color.equals("purple")) { return 6; }
+		else if (color.equals("white")) { return 7; }
+		else if (color.equals("black")) { return 8; }
+		else if (color.equals("grey")) { return 9; }
+		else return -1;
+	}
+	
+	
 	/**
 	 * Change rgb color space to hsv color space
 	 * 
