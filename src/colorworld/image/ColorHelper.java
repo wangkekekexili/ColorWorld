@@ -16,75 +16,9 @@ import javax.imageio.ImageIO;
 
 public class ColorHelper {
 
-	final public static String RGB = "RGB";
-	final public static String HSV = "HSV";
-	
 	final public static String COLORS_SUPPORTED = "red orange yellow green aqua blue purple white black grey";
-	
-	public static int colorToNumber(String color) {
-		if (color==null) {
-			return -1;
-		}
-		color = color.toLowerCase();
-		if (color.equals("red")) { return 0; }
-		else if (color.equals("orange")) { return 1; }
-		else if (color.equals("yellow")) { return 2; }
-		else if (color.equals("green")) { return 3; }
-		else if (color.equals("aqua")) { return 4; }
-		else if (color.equals("blue")) { return 5; }
-		else if (color.equals("purple")) { return 6; }
-		else if (color.equals("white")) { return 7; }
-		else if (color.equals("black")) { return 8; }
-		else if (color.equals("grey")) { return 9; }
-		else return -1;
-	}
-	
-	
-	/**
-	 * Change rgb color space to hsv color space
-	 * 
-	 * @param rgb
-	 * @return hsv, h is in degree
-	 */
-	public static double[] RGB2HSV(int rgb[]) {
-		double temp[] = new double[3];
-		double hsv[] = new double[3];
-		
-		temp[0] = (double)rgb[0]/255;
-		temp[1] = (double)rgb[1]/255;
-		temp[2] = (double)rgb[2]/255;
-		
-		double max = Math.max(temp[0], Math.max(temp[1], temp[2]));
-		double min = Math.min(temp[0], Math.min(temp[1], temp[2]));
-		
-		double delta = max-min;
-		
-		if (delta == 0) {
-			hsv[0] = 0;
-		} else if (max == temp[0]) {
-			hsv[0] = (60*(temp[1]-temp[2])/delta)+360;
-			while (hsv[0] >= 360) {
-				hsv[0] -= 360;
-			}
-		} else if (max == temp[1]) {
-			hsv[0] = 60 * (temp[2]-temp[0]) / delta + 120;
-		} else if (max == temp[2]) {
-			hsv[0] = 60 * (temp[0]-temp[1]) / delta + 240;
-		}
-		
-		
-		if (max == 0) {
-			hsv[1] = 0;
-		}
-		else {
-			hsv[1] = delta/max;
-		}
-		
-		hsv[2] = max;
-		
-		return hsv;
-		
-	}
+	final public static String HSV = "HSV";
+	final public static String RGB = "RGB";
 	
 	/**
 	 * blur an image in RGB color space using its nearest 8 pixels
@@ -175,6 +109,25 @@ public class ColorHelper {
 			}
 		}
 	
+	}
+	
+	
+	public static int colorToNumber(String color) {
+		if (color==null) {
+			return -1;
+		}
+		color = color.toLowerCase();
+		if (color.equals("red")) { return 0; }
+		else if (color.equals("orange")) { return 1; }
+		else if (color.equals("yellow")) { return 2; }
+		else if (color.equals("green")) { return 3; }
+		else if (color.equals("aqua")) { return 4; }
+		else if (color.equals("blue")) { return 5; }
+		else if (color.equals("purple")) { return 6; }
+		else if (color.equals("white")) { return 7; }
+		else if (color.equals("black")) { return 8; }
+		else if (color.equals("grey")) { return 9; }
+		else return -1;
 	}
 	
 }

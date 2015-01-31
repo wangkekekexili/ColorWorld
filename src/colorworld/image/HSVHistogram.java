@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import colorworld.color.ColorConverter;
+
 public class HSVHistogram extends ColorHistogram {
 
 	public HSVHistogram() {
@@ -42,7 +44,7 @@ public class HSVHistogram extends ColorHistogram {
 				colors[i][j][0] = (colorInt >> 16) & 0xFF;
 				colors[i][j][1] = (colorInt >> 8) & 0xFF;
 				colors[i][j][2] = (colorInt) & 0xFF;
-				double[] hsv = ColorHelper.RGB2HSV(colors[i][j]);
+				double[] hsv = ColorConverter.RGB2HSV(colors[i][j]);
 				//System.out.print(""+colors[i][j][0]+" "+colors[i][j][1]+" "+colors[i][j][2]);
 				colors[i][j][0] = (int)hsv[0];
 				colors[i][j][1] = (int)(hsv[1]*100);
