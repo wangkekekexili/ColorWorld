@@ -16,7 +16,13 @@ import javax.imageio.ImageIO;
  */
 public class ImageConverter {
 	
-	
+	/**
+	 * Concatenate two images horizontally
+	 * 
+	 * @param left the image to be put on the left
+	 * @param right the image to be put on the right
+	 * @return the result image
+	 */
 	public static BufferedImage concatenateHorizontal(BufferedImage left, BufferedImage right) {
 		
 		if (left==null || right==null) {
@@ -76,6 +82,12 @@ public class ImageConverter {
 		
 	}
 	
+	/**
+	 * Invert the color of an image
+	 * 
+	 * @param image the image to be inverted
+	 * @return the result image
+	 */
 	public static BufferedImage invertColor(BufferedImage image) {
 		
 		if (image == null) {
