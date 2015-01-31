@@ -8,9 +8,9 @@ import javax.imageio.ImageIO;
 
 public class ImageConverterTest {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ImagesHeightNotAlignedException {
 		BufferedImage input = ImageIO.read(new File("test/data/lake.jpg"));
-		BufferedImage output = ImageConverter.flipVertical(input);
+		BufferedImage output = ImageConverter.concatenateHorizontal(input, input, input);
 		ImageIO.write(output, "jpg", new File("test/data/result.jpg"));
 	}
 

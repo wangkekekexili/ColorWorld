@@ -15,44 +15,45 @@ import javax.imageio.ImageIO;
  *
  */
 public class ImageConverter {
-	
+		
 	/**
-	 * Concatenate two images horizontally
+	 * Concatenate several images horizontally using the images given from left to right
 	 * 
-	 * @param left the image to be put on the left
-	 * @param right the image to be put on the right
+	 * @param im the images to be concatenated
 	 * @return the result image
+	 * @throws ImagesHeightNotAlignedException an exception will be thrown if images do not have the same height
 	 */
-	public static BufferedImage concatenateHorizontal(BufferedImage left, BufferedImage right) {
-		
-		if (left==null || right==null) {
+	public static BufferedImage concatenateHorizontal(BufferedImage...im) throws ImagesHeightNotAlignedException {
+		if (im==null || im.length==0) {
 			return null;
 		}
-		
-		int heightLeft = left.getHeight();
-		int heightRight = right.getHeight();
-		if (heightLeft != heightRight) {
-			// TODO exception
-			return null;
+		if (im.length==1) {
+			return im[0];
 		}
-		int height = heightLeft;
 		
-		int widthLeft = left.getWidth();
-		int widthRight = right.getWidth();
-		
-		BufferedImage resultImage = new BufferedImage(widthLeft+widthRight, height, BufferedImage.TYPE_INT_BGR);
-		
-		for (int i = 0;i < height;i++) {
-			for (int j = 0;j < widthLeft;j++) {
-				resultImage.setRGB(j, i, left.getRGB(j, i));
+		int height = im[0].getHeight();
+		int totalWidth = 0;
+		for (BufferedImage i : im) {
+			int currentHeight = i.getHeight();
+			if (currentHeight != height) {
+				throw new ImagesHeightNotAlignedException();
 			}
-			for (int j = 0;j < widthRight;j++) {
-				resultImage.setRGB(j+widthLeft, i, right.getRGB(j, i));
+			totalWidth += i.getWidth();
+		}
+		
+		BufferedImage resultImage = new BufferedImage(totalWidth, height, BufferedImage.TYPE_INT_BGR);
+		
+		int cumulativeWidth = 0;
+		for (int i = 0;i < im.length;i++) {
+			for (int j = 0;j < im[i].getWidth();j++) {
+				for (int k = 0;k < height;k++) {
+					resultImage.setRGB(j+cumulativeWidth, k, im[i].getRGB(j, k));
+				}
 			}
+			cumulativeWidth += im[i].getWidth();
 		}
 		
 		return resultImage;
-		
 	}
 	
 	/**
@@ -82,6 +83,12 @@ public class ImageConverter {
 		
 	}
 	
+	/**
+	 * Flip vertically
+	 * 
+	 * @param image the image to flip
+	 * @return the result image
+	 */
 	public static BufferedImage flipVertical(BufferedImage image) {
 		
 		if (image == null) {
