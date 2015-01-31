@@ -150,10 +150,4 @@ public class ImageConverter {
 		return greyImage;
 	}
 	
-	public static void main(String[] args) throws IOException {
-		BufferedImage b = ImageIO.read(new File("data/108.jpg"));
-		BufferedImage im = ImageConverter.invertColor(b);
-		ImageIO.write(im, "jpg", new File("hello.jpg"));
-	}
-	
 }
