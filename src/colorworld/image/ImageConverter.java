@@ -76,6 +76,32 @@ public class ImageConverter {
 		
 	}
 	
+	public static BufferedImage invertColor(BufferedImage image) {
+		
+		if (image == null) {
+			return null;
+		}
+		
+		int height = image.getHeight();
+		int width = image.getWidth();
+		
+		BufferedImage resultImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+		
+		for (int i = 0;i < height;i++) {
+			for (int j = 0;j < width;j++) {
+				int rgb = image.getRGB(j, i);
+				int r = (rgb >> 16) & 0xFF;
+				int g = (rgb >> 8) & 0xFF;
+				int b = (rgb) & 0xFF;
+				Color c = new Color(255-r,255-g,255-b);
+				resultImage.setRGB(j, i, c.getRGB());
+			}
+		}
+		
+		return resultImage;
+		
+	}
+	
 	/**
 	 * Convert a colorful image to grey scale image
 	 * by convert RGB to YCbCr, and only pick up
@@ -113,10 +139,9 @@ public class ImageConverter {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		BufferedImage b = ImageIO.read(new File("97.jpg"));
-		BufferedImage im = ImageConverter.flipHorizontal(b);
-		BufferedImage i = ImageConverter.concatenateHorizontal(im, b);
-		ImageIO.write(i, "jpg", new File("hello.jpg"));
+		BufferedImage b = ImageIO.read(new File("data/108.jpg"));
+		BufferedImage im = ImageConverter.invertColor(b);
+		ImageIO.write(im, "jpg", new File("hello.jpg"));
 	}
 	
 }
