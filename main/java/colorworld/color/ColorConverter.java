@@ -10,12 +10,12 @@ package colorworld.color;
 public class ColorConverter {
 
 	/**
-	 * Change rgb color space to hsv color space
+	 * Convert rgb color space to hsv color space
 	 * 
 	 * @param rgb
 	 * @return hsv, h is in degree
 	 */
-	public static double[] RGB2HSV(int rgb[]) {
+	public static double[] rgbToHsv(int rgb[]) {
 		double temp[] = new double[3];
 		double hsv[] = new double[3];
 		
@@ -53,6 +53,44 @@ public class ColorConverter {
 		
 		return hsv;
 		
+	}
+
+	/**
+	 * Convert an RGB array to an int value that represents
+	 * RGB which can be used in BufferedImage setRGB() method
+	 * 
+	 * @param array an RGB array
+	 * @return the corresponding RGB int value
+	 */
+	public static int rgbArrayToRgbInt(int[] array) {
+		if (array == null) {
+			return 0;
+		}
+		if (array.length != 3) {
+			return 0;
+		}
+		double[] doubleArray = {array[0], array[1], array[2]};
+		return ColorConverter.rgbArrayToRgbInt(doubleArray);
+	}
+	
+	/**
+	 * Convert an RGB array to an int value that represents
+	 * RGB which can be used in BufferedImage setRGB() method
+	 * 
+	 * @param array an RGB array
+	 * @return the corresponding RGB int value
+	 */
+	public static int rgbArrayToRgbInt(double[] array) {
+		if (array == null) {
+			return 0 ;
+		}
+		if (array.length != 3) {
+			return 0;
+		}
+		return (255 & 0xFF) << 24 +
+				((int)array[0] & 0xFF) << 16 +
+				((int)array[1] & 0xFF) << 8 +
+				((int)array[2] & 0xFF);
 	}
 	
 }
