@@ -81,6 +81,9 @@ public class WashingtonUniversity {
 					boolean numberFormat;
 					String line = null;
 					line = reader.readLine();
+					if (line == null) {
+						break;
+					}
 					if (line.startsWith("Image")) {
 						numberFormat = false;
 					} else {
