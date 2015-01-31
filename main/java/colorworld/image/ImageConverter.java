@@ -82,6 +82,26 @@ public class ImageConverter {
 		
 	}
 	
+	public static BufferedImage flipVertical(BufferedImage image) {
+		
+		if (image == null) {
+			return null;
+		}
+		
+		int width = image.getWidth();
+		int height = image.getHeight();
+		BufferedImage resultImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+		
+		for (int i = 0;i < width;i++) {
+			for (int j = 0;j < height;j++) {
+				resultImage.setRGB(i, j, image.getRGB(i, height-j-1));
+			}
+		}
+		
+		return resultImage;
+		
+	}
+	
 	/**
 	 * Invert the color of an image
 	 * 
