@@ -1,4 +1,5 @@
-ColorWorld
-==========
-
-A color histogram based image database system
+#ColorWorld
+Welcome to ColorWorld!
+#About
+ColorWorld is a color-based image indexing and retrieval
+system.
