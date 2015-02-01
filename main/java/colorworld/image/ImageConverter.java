@@ -177,4 +177,57 @@ public class ImageConverter {
 		return greyImage;
 	}
 	
+	/**
+	 * Rotate the image 90 degrees clockwise
+	 * 
+	 * @param image the image to be rotated
+	 * @return the result image
+	 */
+	public static BufferedImage rotateRight(BufferedImage image) {
+		
+		if (image == null) {
+			return null;
+		}
+		
+		int width = image.getWidth();
+		int height = image.getHeight();
+		
+		BufferedImage resultImage = new BufferedImage(height, width, BufferedImage.TYPE_INT_BGR);
+		
+		for (int i = 0;i < height;i++) {
+			for (int j = 0;j < width;j++) {
+				resultImage.setRGB(i, j, image.getRGB(j, height-i-1));
+			}
+		}
+		
+		return resultImage;
+		
+	}
+	
+	/**
+	 * Rotate the image 90 degrees count-clockwise
+	 * 
+	 * @param image the image to be rotated
+	 * @return the result image
+	 */
+	public static BufferedImage rotateLeft(BufferedImage image) {
+		
+		if (image==null) {
+			return null;
+		}
+		
+		int width = image.getWidth();
+		int height = image.getHeight();
+		
+		BufferedImage resultImage = new BufferedImage(height, width, BufferedImage.TYPE_INT_BGR);
+		
+		for (int i = 0;i < width;i++) {
+			for (int j = 0;j < height;j++) {
+				resultImage.setRGB(j, width-i-1, image.getRGB(i, j));
+			}
+		}
+		
+		return resultImage;
+	}
+	
 }
