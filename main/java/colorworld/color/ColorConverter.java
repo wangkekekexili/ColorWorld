@@ -10,7 +10,77 @@ package colorworld.color;
 public class ColorConverter {
 
 	/**
+	 * Convert from CMY color space to RGB color space
+	 * 
+	 * @param cmy CMY color space value
+	 * @return RGB color space value
+	 */
+	public static double[] cmyToRgb(double[] cmy) {
+		assert(cmy != null && cmy.length == 3);
+		double[] rgb = new double[3];
+		rgb[0] = (1-cmy[0]) * 255;
+		rgb[1] = (1-cmy[1]) * 255;
+		rgb[2] = (1-cmy[2]) * 255;
+		return rgb;
+	}
+
+	/**
+	 * Convert an RGB array to an int value that represents
+	 * RGB which can be used in BufferedImage setRGB() method
+	 * 
+	 * @param array an RGB array
+	 * @return the corresponding RGB int value
+	 */
+	public static int rgbArrayToRgbInt(double[] array) {
+		if (array == null) {
+			return 0 ;
+		}
+		if (array.length != 3) {
+			return 0;
+		}
+		return (255 & 0xFF) << 24 +
+				((int)array[0] & 0xFF) << 16 +
+				((int)array[1] & 0xFF) << 8 +
+				((int)array[2] & 0xFF);
+	}
+	
+	/**
+	 * Convert an RGB array to an int value that represents
+	 * RGB which can be used in BufferedImage setRGB() method
+	 * 
+	 * @param array an RGB array
+	 * @return the corresponding RGB int value
+	 */
+	public static int rgbArrayToRgbInt(int[] array) {
+		if (array == null) {
+			return 0;
+		}
+		if (array.length != 3) {
+			return 0;
+		}
+		double[] doubleArray = {array[0], array[1], array[2]};
+		return ColorConverter.rgbArrayToRgbInt(doubleArray);
+	}
+	
+	/**
+	 * Convert from RGB color space to CMY color space
+	 * 
+	 * @param rgb a double array of size 3 containing RGB data
+	 * @return a double array of size 3 containing XYZ
+	 */
+	public static double[] rgbToCmy(double[] rgb) {
+		assert(rgb != null && rgb.length == 3);
+		double[] cmy = new double[3];
+		cmy[0] = 1 - (rgb[0] / 255);
+		cmy[1] = 1 - (rgb[1] / 255);
+		cmy[2] = 1 - (rgb[2] / 255);
+		return cmy;
+	}	
+	
+	/**
 	 * Convert rgb color space to hsv color space
+	 * h: degree
+	 * s,v: percentage
 	 * 
 	 * @param rgb
 	 * @return hsv, h is in degree
@@ -56,44 +126,6 @@ public class ColorConverter {
 	}
 
 	/**
-	 * Convert an RGB array to an int value that represents
-	 * RGB which can be used in BufferedImage setRGB() method
-	 * 
-	 * @param array an RGB array
-	 * @return the corresponding RGB int value
-	 */
-	public static int rgbArrayToRgbInt(int[] array) {
-		if (array == null) {
-			return 0;
-		}
-		if (array.length != 3) {
-			return 0;
-		}
-		double[] doubleArray = {array[0], array[1], array[2]};
-		return ColorConverter.rgbArrayToRgbInt(doubleArray);
-	}
-	
-	/**
-	 * Convert an RGB array to an int value that represents
-	 * RGB which can be used in BufferedImage setRGB() method
-	 * 
-	 * @param array an RGB array
-	 * @return the corresponding RGB int value
-	 */
-	public static int rgbArrayToRgbInt(double[] array) {
-		if (array == null) {
-			return 0 ;
-		}
-		if (array.length != 3) {
-			return 0;
-		}
-		return (255 & 0xFF) << 24 +
-				((int)array[0] & 0xFF) << 16 +
-				((int)array[1] & 0xFF) << 8 +
-				((int)array[2] & 0xFF);
-	}
-	
-	/**
 	 * Convert from RGB color space to XYZ color space
 	 * 
 	 * @param rgb a double array of size 3 containing RGB data
@@ -126,5 +158,5 @@ public class ColorConverter {
 		xyz[1] = r * 0.2126 + g * 0.7152 + b * 0.0722;
 		xyz[2] = r * 0.0193 + g * 0.1192 + b * 0.9505;
 		return xyz;
-	}	
+	}
 }
