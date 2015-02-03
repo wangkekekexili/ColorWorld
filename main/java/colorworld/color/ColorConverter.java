@@ -45,6 +45,20 @@ public class ColorConverter {
 	}
 	
 	/**
+	 * Convert an RGB int value to RGB array
+	 * 
+	 * @param rgb RGB int value
+	 * @return RGB array
+	 */
+	public static double[] rgbIntToRgbArray(int rgb) {
+		double[] rgbArray = new double[3];
+		rgbArray[0] = (rgb >> 16) & 0xFF;
+		rgbArray[1] = (rgb >> 8) & 0xFF;
+		rgbArray[2] = (rgb) & 0xFF;
+		return rgbArray;
+	}
+	
+	/**
 	 * Convert an RGB array to an int value that represents
 	 * RGB which can be used in BufferedImage setRGB() method
 	 * 
