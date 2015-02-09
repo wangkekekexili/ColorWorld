@@ -14,6 +14,11 @@ public class ColorConverterTest {
 		for (double d : xyzResult) {
 			System.out.println(d);
 		}
+		int[] test4 = {100,100,18};
+		double[] rgbResult = ColorConverter.hsvToRgb(ColorConverter.rgbToHsv(test4));
+		for (double d : rgbResult) {
+			System.out.println(d);
+		}
 	}
 
 }

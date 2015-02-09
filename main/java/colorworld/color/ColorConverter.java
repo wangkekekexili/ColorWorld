@@ -25,6 +25,72 @@ public class ColorConverter {
 	}
 
 	/**
+	 * Convert from HSV color space to RGB color space
+	 * 
+	 * @param hsv HSV color space value
+	 * @return RGB color space value
+	 */
+	public static double[] hsvToRgb(double[] hsv) {
+		double h = hsv[0];
+		double s = hsv[1];
+		double v = hsv[2];
+		double r,g,b;
+		
+		if (s == 0) {
+			r = v * 255;
+			g = v * 255;
+			b = v * 255;
+		} else {
+			double varH = h / 60;
+			if ((int)varH == 6) {
+				varH = 0;
+			}
+			int varI = (int)(varH);
+			double var1 = v * (1 - s);
+			double var2 = v * (1 - s * (varH - varI));
+			double var3 = v * (1 - s * (1 - (varH - varI)));
+			
+			double varR, varG, varB;
+			switch (varI) {
+			case 0:
+				varR = v;
+				varG = var3;
+				varB = var1;
+				break;
+			case 1:
+				varR = var2;
+				varG = v;
+				varB = var1;
+				break;
+			case 2:
+				varR = var1;
+				varG = v;
+				varB = var3;
+				break;
+			case 3:
+				varR = var1;
+				varG = var2;
+				varB = v;
+				break;
+			case 4:
+				varR = var3;
+				varG = var1;
+				varB = v;
+				break;
+			default:
+				varR = v;
+				varG = var1;
+				varB = var2;
+			}
+			r = varR * 255;
+			g = varG * 255;
+			b = varB * 255;
+		}
+		double[] result = {r,g,b};
+		return result;
+	}
+	
+	/**
 	 * Convert an RGB array to an int value that represents
 	 * RGB which can be used in BufferedImage setRGB() method
 	 * 
