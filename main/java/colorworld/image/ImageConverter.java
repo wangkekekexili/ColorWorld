@@ -230,4 +230,25 @@ public class ImageConverter {
 		return resultImage;
 	}
 	
+	public static BufferedImage[] split(BufferedImage bi, int rows, int columns) {
+		BufferedImage[] result = new BufferedImage[rows*columns];
+		
+		int width = bi.getWidth();
+		int height = bi.getHeight();
+		
+		for (int c = 0;c != columns;c++) {
+			for (int r = 0;r != rows;r++) {
+				BufferedImage current = new BufferedImage(width/columns, height/rows, BufferedImage.TYPE_INT_BGR);
+				result[c + r*columns] = current;
+				for (int w = 0;w != width/columns;w++) {
+					for (int h = 0;h != height/rows;h++) {
+						current.setRGB(w, h, bi.getRGB(width/columns*c + w, height/rows*r + h));
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+	
 }
